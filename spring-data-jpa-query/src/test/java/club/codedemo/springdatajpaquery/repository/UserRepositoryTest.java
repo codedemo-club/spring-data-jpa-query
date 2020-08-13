@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,8 +78,7 @@ class UserRepositoryTest {
 
     /**
      * 3.2 JPQL 进行Sort()排序操作
-     * 方法作用： 按对象的"Name"属性音序排序
-     * @return 所有用户的List
+     * 方法作用： 按字符串"名称"的音序排序(非对象属性)
      */
     @Test
     @Transactional
@@ -96,7 +95,6 @@ class UserRepositoryTest {
     /**
      * 3.2 JPQL 进行Sort()排序操作
      * 方法作用： 按字符串"名称"的长度排序(非对象属性)(使用Unsafe)
-     * @return 所有用户的List
      */
     @Test
     @Transactional
@@ -113,7 +111,6 @@ class UserRepositoryTest {
     /**
      * 3.2 JPQL 进行Sort()排序操作
      * 方法作用： 按字符串"名称"的长度排序(非对象属性)(不使用Unsafe)
-     * @return 所有用户的List
      */
     @Test
     @Transactional
@@ -126,5 +123,36 @@ class UserRepositoryTest {
         Assertions.assertEquals(users.get(2).getName(), "wangwu");
         Assertions.assertEquals(users.get(3).getName(), "zhaoliu");
         Assertions.assertEquals(users.get(4).getName(), "zhangsan");
+    }
+
+    /**
+     * 3.3 Native原生查询 进行Sort()排序操作
+     * 方法作用： 按对象的"Name"属性音序排序
+     */
+    @Test
+    @Transactional
+    void findAllUsersSortByObjectPropertiesNameUsingNative() {
+        List<User> users = userRepository.findAllUsersSortUsingNative(Sort.by("name"));
+        // 测试不会通过，会出现异常，但我们仍断言结果，Name按音序依次递增
+        Assertions.assertEquals(users.size(), 5);
+        Assertions.assertEquals(users.get(0).getName(), "lisi");
+        Assertions.assertEquals(users.get(1).getName(), "sunqi");
+        Assertions.assertEquals(users.get(2).getName(), "wangwu");
+        Assertions.assertEquals(users.get(3).getName(), "zhangsan");
+        Assertions.assertEquals(users.get(4).getName(), "zhaoliu");
+    }
+
+    /**
+     * 4.1 JPQL 分页
+     * 方法作用：获取全部用户，并按传入的Pageable进行分页
+     */
+    @Test
+    @Transactional
+    void findAllUsersWithPaginationUsingJPQL() {
+        Pageable page = PageRequest.of(1, 2);
+        Page<User> users = userRepository.findAllUsersWithPaginationUsingJPQL(page);
+        Assertions.assertEquals(users.getSize(), 2);
+        Assertions.assertEquals(users.getContent().get(0).getName(), "zhangsan");
+        Assertions.assertEquals(users.getContent().get(1).getName(), "lisi");
     }
 }
