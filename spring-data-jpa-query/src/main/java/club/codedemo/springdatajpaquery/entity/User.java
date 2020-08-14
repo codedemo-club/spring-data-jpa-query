@@ -14,7 +14,9 @@ public class User {
 
     private String name;
 
-    private Short status;
+    private Integer status;
+
+    private String email;
 
     public Long getId() {
         return id;
@@ -32,11 +34,15 @@ public class User {
         this.name = name;
     }
 
-    public Short getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 }
