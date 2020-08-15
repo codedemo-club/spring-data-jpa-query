@@ -10,4 +10,4 @@
 编辑项目：用IDEA打开pom.xml -> Open as a project
 启动项目：mvn spring-boot:run
 
-依赖关系：Mysql5.7及以上、H2数据库
+依赖关系：H2数据库

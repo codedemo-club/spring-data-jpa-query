@@ -10,12 +10,13 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // id 自增
     private Long id;
-
+    // 姓名
     private String name;
-
+    // 状态
     private Integer status;
-
+    // 邮箱
     private String email;
 
     public Long getId() {
