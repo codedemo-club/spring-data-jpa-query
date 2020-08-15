@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class UserRopositoryCustomImpl implements UserRepositoryCustom {
+public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 

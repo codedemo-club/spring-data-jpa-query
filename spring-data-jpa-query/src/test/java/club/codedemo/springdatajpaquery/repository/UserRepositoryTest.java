@@ -304,7 +304,7 @@ class UserRepositoryTest {
 
     /**
      * 7 JPQL 集合参数查询
-     * 方法作用：传入一个姓名集合，查询数据表中属于给定集合的所有用户
+     * 方法作用：传入一个姓名集合，查询数据表中属于给定集合的所有用户的列表
      */
     @Test
     @Transactional
@@ -380,12 +380,12 @@ class UserRepositoryTest {
         // 断言插入后的结果，共6条数据
         users = userRepository.findAllUsersSortUsingJPQL(Sort.by("name"));
         Assertions.assertEquals(users.size(), 6);
-        Assertions.assertEquals(users.get(0).getName(), "liuba");
+        Assertions.assertEquals(users.get(1).getName(), "liuba");
     }
 
     /**
      * 9.4 调用动态查询方法
-     * 方法作用: 集合查询，传入一个邮箱集合，查询数据表中属于给定集合的所有用户
+     * 方法作用: 集合查询，传入一个邮箱集合，查询数据表中属于给定集合的所有用户的列表
      */
     @Transactional
     @Test

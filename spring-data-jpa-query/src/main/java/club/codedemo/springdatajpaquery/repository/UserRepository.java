@@ -81,7 +81,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
      * 5.1 JPQL 索引参数查询 单参数
      * 方法作用： 根据条件Status查询用户
      * 要点：索引参数模式中，查询条件的顺序和方法参数的顺序相对应
-     * @return 状态 == 参数 的所有用户
+     * @return 状态 == 参数 的所有用户的列表的列表
      */
     @Query("SELECT u FROM User u WHERE u.status = ?1")
     List<User> findUserByStatusUsingJPQL(Integer status);
@@ -90,7 +90,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
      * 5.1 JPQL 索引参数查询 多参数
      * 方法作用： 根据条件Status和Name查询用户
      * 要点：索引参数模式中，查询条件的顺序和方法参数的顺序相对应
-     * @return 状态 == 参数1， 姓名 == 参数2 的所有用户
+     * @return 状态 == 参数1， 姓名 == 参数2 的所有用户的列表
      */
     @Query("SELECT u FROM User u WHERE u.status = ?1 and u.name = ?2")
     List<User> findUserByStatusAndNameUsingJPQL(Integer status, String name);
@@ -98,6 +98,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
     /**
      * 5.2 Native 索引参数查询 单参数
      * 用法和JPQL中一致
+     * @return 状态 == 参数 的所有用户的列表
      */
     @Query(value = "SELECT * FROM User u WHERE u.status = ?1", nativeQuery = true)
     List<User> findUserByStatusUsingNative(Integer status);
@@ -106,6 +107,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
      * 6.1 JPQL 命名参数查询 多参数
      * 方法作用：根据条件Status和Name查询用户
      * 要点：命名参数模式中，查询条件的名称和Param参数的名称相对应
+     * @return 状态 == 参数1， 姓名 == 参数2 的所有用户的列表
      */
     @Query("SELECT u FROM User u WHERE u.status = :status and u.name = :name")
     List<User> findUserByStatusAndNameNamedParamsUsingJPQL(@Param("status") Integer status, @Param("name") String name);
@@ -114,6 +116,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
      * 6.1 上个方法的另一种写法
      * 注意：只要 Param中的字符串 和 查询条件 对应即可
      * 不需要 传入的变量 和 查询条件 对应
+     * @return 状态 == 参数1， 姓名 == 参数2 的所有用户的列表
      */
     @Query("SELECT u FROM User u WHERE u.status = :status and u.name = :name")
     List<User> findUserByUserStatusAndUserNameNamedParamsUsingJPQL(@Param("status") Integer userStatus,
@@ -123,6 +126,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
      * 6.2 Native 命名参数查询 多参数
      * 方法作用：根据条件Status和Name查询用户
      * 要点：命名参数模式中，查询条件的名称和Param参数的名称相对应
+     * @return 状态 == 参数1， 姓名 == 参数2 的所有用户的列表
      */
     @Query(value = "SELECT * FROM User u WHERE u.status = :status and u.name = :name", nativeQuery = true)
     List<User> findUserByStatusAndNameNamedParamsUsingNative(@Param("status") Integer status,
@@ -130,7 +134,8 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
 
     /**
      * 7 JPQL 集合参数查询
-     * 方法作用：传入一个姓名集合，查询数据表中属于给定集合的所有用户
+     * 方法作用：传入一个姓名集合，查询数据表中属于给定集合的所有用户的列表
+     * @return 姓名包含在集合中的所有用户的列表的列表
      */
     @Query(value = "SELECT u FROM User u WHERE u.name IN :names")
     List<User> findUserByNameListUsingJPQL(@Param("names") Collection<String> names);
